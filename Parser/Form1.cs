@@ -26,7 +26,7 @@ namespace Parser
 
         private void button_save_Click(object sender, EventArgs e)
         {
-            // Проверка наличия данных в DataGridView
+            // Проверка данных в DataGridView
             if (dataGridView1.Rows.Count == 0)
             {
                 MessageBox.Show("Нет данных для сохранения.");
@@ -47,7 +47,7 @@ namespace Parser
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            // Получение текущей строки
+            // Получить текущие строки
             DataGridViewRow dataGridViewRow = dataGridView1.Rows[e.RowIndex];
 
             // Преобразование строки DataGridView в DataRow
@@ -61,15 +61,15 @@ namespace Parser
                 string errorMessage;
                 if (!_xlsx_parser.ValidateRow(dataRow, out errorMessage))
                 {
-                    // Если проверка не прошла, показать сообщение об ошибке
+                    // Если проверка не прошла, показать сообщение об оштбке
                     MessageBox.Show(errorMessage, "Ошибка валидации", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // Отключение и включение событий, чтобы предотвратить зацикливание
+                    // Отключение и включение события для предотвращения зацикливания
                     dataGridView1.CellEndEdit -= dataGridView1_CellEndEdit;
                     dataGridView1.CancelEdit();
                     // Установить фокус обратно на текущую ячейку
                     dataGridView1.CurrentCell = dataGridView1[e.ColumnIndex, e.RowIndex];
                     dataGridView1.BeginEdit(true);
-                    // Повторное подключение события
+                    // Повторение события
                     dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
                 }
             }
@@ -89,7 +89,7 @@ namespace Parser
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 selectedRow = dataGridView1.SelectedRows[0];
-                // Устанавливаем цвет фона в зависимости от состояния CheckBox
+                // устонавливаем цвнт фона в зависимости от CheckBox
                 _xlsx_parser.ChangeRowColor(selectedRow, checkBox1.Checked);
             }
 
@@ -99,25 +99,25 @@ namespace Parser
         {
             try 
             {
-                // Генерация логина и пароля
+                // генерация логина и пароля
                 string login = _xlsx_parser.GenerateRandomString(8);
                 string password = _xlsx_parser.GenerateRandomString(12);
 
-                // Проверка, выбрана ли строка
+                // проверка выбрана ли строка
                 if (dataGridView1.SelectedRows.Count > 0)
                 {
-                    // Получаем первую выбранную строку 
+                    // получаем первую выбранную
                     DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
-                    // Индексы столбцов
-                    int loginColumnIndex = 11; // Индекс столбца логина
-                    int passwordColumnIndex = 12; // Индекс столбца пароля
+                    // индексы столбцов
+                    int loginColumnIndex = 11; // столбец логина
+                    int passwordColumnIndex = 12; // столбец пароля
 
-                    // Вставка сгенерированных значений в выбранные ячейки по индексам
+                    // вставке сгенерированной строки в ячейки выбранной строки
                     selectedRow.Cells[loginColumnIndex].Value = login;
                     selectedRow.Cells[passwordColumnIndex].Value = password;
 
-                    // Вставка значений в TextBox
+                    // вставка значений в TextBox
                     textBox2.Text = login;
                     textBox3.Text = password;
                 }
@@ -128,12 +128,12 @@ namespace Parser
             }
             catch (IndexOutOfRangeException ex)
             {
-                // Обработка исключения, если индекс столбца выходит за границы
-                MessageBox.Show($"Ошибка: Некорректный индекс столбца. {ex.Message}");
+                // Индекс выходит за границы
+                MessageBox.Show($"Ошибка: Некорректный индекс. {ex.Message}");
             }
             catch (NullReferenceException ex)
             {
-                // Обработка исключения, если один из объектов не инициализирован
+                // Объект не инициализирован
                 MessageBox.Show($"Ошибка: Неинициализированный объект. {ex.Message}");
             }
             catch (Exception ex)
